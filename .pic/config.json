@@ -1,0 +1,88 @@
+{
+  "version": "1.0.0",
+  "pics": {
+    "order": [
+      "research",
+      "planning",
+      "design",
+      "implementation",
+      "testing",
+      "review"
+    ],
+    "definitions": {
+      "research": {
+        "name": "Research PIC",
+        "taskAgentType": "Explore",
+        "instructionsFile": ".claude/agents/pic-research.md",
+        "description": "Information gathering and evidence collection",
+        "permissions": "read-only",
+        "canDelegate": false
+      },
+      "planning": {
+        "name": "Planning PIC",
+        "taskAgentType": "planner",
+        "instructionsFile": ".claude/agents/pic-planning.md",
+        "description": "Strategic planning and roadmap creation",
+        "permissions": "acceptEdits",
+        "canDelegate": false
+      },
+      "design": {
+        "name": "Design PIC",
+        "taskAgentType": "planner",
+        "instructionsFile": ".claude/agents/pic-design.md",
+        "description": "Technical architecture and system design",
+        "permissions": "acceptEdits",
+        "canDelegate": false
+      },
+      "implementation": {
+        "name": "Implementation PIC",
+        "taskAgentType": "builder",
+        "instructionsFile": ".claude/agents/pic-implementation.md",
+        "description": "Code execution and feature building",
+        "permissions": "full",
+        "canDelegate": true
+      },
+      "testing": {
+        "name": "Testing PIC",
+        "taskAgentType": "test-writer",
+        "instructionsFile": ".claude/agents/pic-testing.md",
+        "description": "Validation and integration testing",
+        "permissions": "full",
+        "canDelegate": true
+      },
+      "review": {
+        "name": "Review PIC",
+        "taskAgentType": "reviewer",
+        "instructionsFile": ".claude/agents/pic-review.md",
+        "description": "Final approval and quality gate",
+        "permissions": "read-only",
+        "canDelegate": false
+      }
+    }
+  },
+  "orchestrator": {
+    "agent": "orchestrator",
+    "maxParallelAgents": 3,
+    "conflictResolutionTimeout": 300
+  },
+  "workflow": {
+    "autoHandoff": false,
+    "requireHandoffApproval": true,
+    "minEvidenceForDecision": 2
+  },
+  "logging": {
+    "verbosity": "normal",
+    "logStatusUpdates": true,
+    "logHandoffs": true,
+    "logDecisions": true
+  },
+  "decisions": {
+    "numberingPrefix": "DEC",
+    "requireRationale": true,
+    "requireAlternatives": true
+  },
+  "integration": {
+    "numberingPrefix": "INT",
+    "requireTestPlan": true
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Glob(**)",
+      "Grep(**)",
+      "WebSearch(**)",
+      "WebFetch(**)"
+    ],
+    "deny": []
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/validate-pic-action.sh \"$TOOL_INPUT\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/on-decision-made.sh \"$TOOL_INPUT\" \"$TOOL_OUTPUT\""
+          }
+        ]
+      }
+    ]
+  }
+}
