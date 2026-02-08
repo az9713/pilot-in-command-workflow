@@ -355,6 +355,5 @@ After completing this assessment, produce:
 ## Additional Resources
 
 For detailed case studies of every issue this skill prevents, see:
-- [LESSONS_LEARNED.md](../../docs/avatar-pipeline/LESSONS_LEARNED.md)
-- [INSTALLATION_GUIDE.md](../../docs/avatar-pipeline/INSTALLATION_GUIDE.md)
-- [dependency-lessons.md](../../memory/dependency-lessons.md) (Claude memory)
+- [LESSONS_LEARNED.md](../../../docs/avatar-pipeline/LESSONS_LEARNED.md)
+- [INSTALLATION_GUIDE.md](../../../docs/avatar-pipeline/INSTALLATION_GUIDE.md)
