@@ -59,6 +59,11 @@ Welcome to the documentation for the PIC Agentic Organizational System. This fol
 3. Study [ARCHITECTURE.md](ARCHITECTURE.md) for design
 4. Follow [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) for changes
 
+### "I Want to Use the Avatar Pipeline"
+1. Read the [root README.md](../README.md) for project overview
+2. Follow [Avatar Pipeline Installation Guide](avatar-pipeline/INSTALLATION_GUIDE.md)
+3. See [Avatar Pipeline Docs](avatar-pipeline/) for full reference
+
 ### "Something Isn't Working"
 1. Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md) first
 2. Look up error messages in [REFERENCE.md](REFERENCE.md)
@@ -78,6 +83,7 @@ Welcome to the documentation for the PIC Agentic Organizational System. This fol
 | [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | ~15 | Fix common problems | Everyone |
 | [GLOSSARY.md](GLOSSARY.md) | ~10 | Term definitions | Everyone |
 | [REFERENCE.md](REFERENCE.md) | ~20 | Complete technical reference | Everyone |
+| [Avatar Pipeline Docs](avatar-pipeline/) | varies | Avatar lipsync pipeline documentation | Avatar pipeline users |
 
 ---
 
@@ -99,6 +105,12 @@ Welcome to the documentation for the PIC Agentic Organizational System. This fol
 - [Quick diagnosis](TROUBLESHOOTING.md#quick-diagnosis)
 - [Common errors](TROUBLESHOOTING.md#error-reference)
 - [Recovery procedures](TROUBLESHOOTING.md#recovery-procedures)
+
+### For Avatar Pipeline
+- [Installation Guide](avatar-pipeline/INSTALLATION_GUIDE.md)
+- [CLI Reference](avatar-pipeline/AVATAR_CLI_REFERENCE.md)
+- [Lessons Learned](avatar-pipeline/LESSONS_LEARNED.md)
+- [Changelog](avatar-pipeline/CHANGELOG.md)
 
 ---
 

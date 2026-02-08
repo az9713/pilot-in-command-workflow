@@ -329,6 +329,65 @@ Creates `.pic/integration-results/INT-XXX.md`
 
 ---
 
+### /pic-audit
+
+**Purpose:** View detailed audit log for the workflow.
+
+**Syntax:**
+```
+/pic-audit
+```
+
+**Parameters:** None
+
+**Output:**
+Displays the audit trail from `.pic/audit-log.jsonl` showing:
+- Agent executions and tool usage
+- Decision trail and handoff records
+- Timestamps for all significant events
+
+**Errors:**
+| Error | Cause | Solution |
+|-------|-------|----------|
+| "No audit log found" | System not initialized or no activity | Run a workflow first |
+
+---
+
+### /dependency-risk-planner
+
+**Purpose:** Pre-flight dependency risk assessment for the planning phase.
+
+**Syntax:**
+```
+/dependency-risk-planner [library-name or project-description]
+```
+
+**Parameters:**
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| library/project | Optional | Library name(s) or project description to assess |
+
+**Behavior:**
+1. Audits maintainer viability for each dependency
+2. Checks dependency tree health and conflicts
+3. Verifies Python/runtime compatibility
+4. Assesses API stability
+5. Recommends architecture decisions (wrappers, import strategy, pinning)
+6. Produces risk summary table with green/yellow/red scores
+
+**When to Use:**
+- Before choosing libraries for a new project
+- During the Planning phase of a PIC workflow
+- When evaluating whether to adopt a dependency
+
+**Output:**
+1. Risk Summary Table per dependency
+2. Architecture Decisions (wrapper modules, import strategy)
+3. Action Items ordered list
+4. Dependency Specification Files recommendations
+
+---
+
 ## File Reference
 
 ### Project Structure
@@ -351,6 +410,7 @@ project-root/
 │   ├── config.json               # Configuration
 │   ├── state.json                # Current state
 │   ├── status-log.jsonl          # Event log
+│   ├── audit-log.jsonl           # Tool usage audit trail
 │   ├── decisions/                # Decision documents
 │   │   └── DEC-XXX.md
 │   ├── handoffs/                 # Handoff records
@@ -374,7 +434,9 @@ project-root/
     │   ├── pic-decide/SKILL.md
     │   ├── pic-handoff/SKILL.md
     │   ├── pic-conflict/SKILL.md
-    │   └── pic-integration/SKILL.md
+    │   ├── pic-integration/SKILL.md
+    │   ├── pic-audit/SKILL.md
+    │   └── dependency-risk-planner/SKILL.md
     ├── rules/                    # Policies
     │   ├── pic-coordination.md
     │   ├── decision-protocols.md
@@ -383,7 +445,8 @@ project-root/
         ├── validate-pic-action.sh
         ├── on-decision-made.sh
         ├── on-pic-handoff.sh
-        └── notify-status.sh
+        ├── notify-status.sh
+        └── audit-tool-use.sh
 ```
 
 ---
@@ -612,6 +675,14 @@ Ready when:
 
 **Purpose:** Inject PIC context into notifications
 
+### audit-tool-use.sh
+
+**Trigger:** Before and after tool use
+
+**Input:** `$1` = Tool input JSON
+
+**Purpose:** Log every tool invocation to `.pic/audit-log.jsonl` with input/output for comprehensive audit trail
+
 ---
 
 ## Event Reference
@@ -634,6 +705,7 @@ All events in `.pic/status-log.jsonl`:
 | `workflow_completed` | workflow, result | Workflow finished |
 | `task_spawn` | agent | Agent spawned |
 | `pic_agent_completed` | agent, output_preview | PIC finished |
+| `audit_entry` | tool, input, output | Tool invocation logged |
 
 ### Event Format
 
@@ -686,6 +758,8 @@ All events in `.pic/status-log.jsonl`:
 /pic-handoff [notes]    Transition phase
 /pic-conflict [summary] Escalate conflict
 /pic-integration [...]  Run integration test
+/pic-audit              View audit trail
+/dependency-risk-planner [lib]  Assess dependency risks
 ```
 
 ### Key Files

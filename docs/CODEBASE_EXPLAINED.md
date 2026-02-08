@@ -1553,6 +1553,65 @@ Write to `.pic/integration-results/INT-[NNN].md`
 
 ---
 
+#### File: .claude/skills/pic-audit/SKILL.md
+
+**Purpose:** View the comprehensive audit trail for the workflow.
+
+**When Used:** User types `/pic-audit`
+
+**Key Code Sections:**
+
+```markdown
+### Step 1: Read Audit Log
+
+Read `.pic/audit-log.jsonl` and display formatted entries showing
+agent executions, tool usage, and decision trail.
+```
+
+**Cross-References:**
+- Reads: [.pic/audit-log.jsonl](#file-picaudit-logjsonl)
+- Reads: [.pic/status-log.jsonl](#file-picstatus-logjsonl)
+
+---
+
+#### File: .claude/skills/dependency-risk-planner/SKILL.md
+
+**Purpose:** Pre-flight dependency risk assessment for the planning phase. Prevents dependency hell, version conflicts, and abandoned-library traps.
+
+**When Used:** User types `/dependency-risk-planner [library-name or project-description]`
+
+**Key Code Sections:**
+
+```markdown
+### Phase 1: Dependency Health Audit
+- Maintainer viability check
+- Dependency tree health
+- Python/runtime compatibility
+- API stability assessment
+
+### Phase 2: Architecture Decisions
+- Wrapper pattern for fragile APIs
+- Import strategy for heavy dependencies
+- Transitive dependency inventory
+- Environment compatibility matrix
+
+### Phase 3: Dependency Specification
+- Pinning strategy per category
+- Install script design checklist
+- Documentation artifacts
+
+### Phase 4: Test Planning
+- Three test layers (smoke, unit, integration)
+- Mock pattern documentation
+- Dataclass/interface stability
+```
+
+**Cross-References:**
+- Born from: [docs/avatar-pipeline/LESSONS_LEARNED.md](avatar-pipeline/LESSONS_LEARNED.md)
+- Useful during: Planning phase of any PIC workflow
+
+---
+
 ### The .claude/hooks/ Directory
 
 Contains scripts that run automatically on events.
@@ -1797,6 +1856,21 @@ exit 0
 
 **Cross-References:**
 - Reads: [.pic/state.json](#file-picstatejson)
+
+---
+
+#### File: .claude/hooks/audit-tool-use.sh
+
+**Purpose:** Log every tool invocation to the audit trail.
+
+**When Used:** Before and after tool use (PreToolUse/PostToolUse).
+
+**What It Does:**
+Records every tool invocation with input/output to `.pic/audit-log.jsonl`, creating a comprehensive audit trail of all actions taken during a workflow.
+
+**Cross-References:**
+- Registered in: [.claude/settings.json](#file-claudesettingsjson)
+- Writes to: `.pic/audit-log.jsonl`
 
 ---
 
@@ -2067,10 +2141,12 @@ Each follows the same pattern:
 |------|-------|
 | First setup | `scripts/pic-init.sh` |
 | Starting workflow | `pic-start/SKILL.md`, `state.json`, `config.json` |
-| During phases | `agents/*.md`, `hooks/*.sh`, `status-log.jsonl` |
+| Planning dependencies | `dependency-risk-planner/SKILL.md` |
+| During phases | `agents/*.md`, `hooks/*.sh`, `status-log.jsonl`, `audit-log.jsonl` |
 | Making decisions | `pic-decide/SKILL.md`, `decisions/*.md` |
 | Transitioning | `pic-handoff/SKILL.md`, `handoffs/*.md` |
 | Checking status | `pic-status/SKILL.md`, `state.json` |
+| Viewing audit trail | `pic-audit/SKILL.md`, `audit-log.jsonl` |
 | Resolving conflicts | `pic-conflict/SKILL.md`, `conflicts/*.md` |
 | Completing | `state.json`, `status-log.jsonl` |
 
@@ -2079,13 +2155,13 @@ Each follows the same pattern:
 | Directory | File Count | Purpose |
 |-----------|------------|---------|
 | `scripts/` | 2 | Utilities |
-| `.pic/` | 3 files + 4 dirs | Runtime state |
+| `.pic/` | 4 files + 4 dirs | Runtime state |
 | `.claude/agents/` | 7 | Agent instructions |
-| `.claude/skills/` | 6 | User commands |
-| `.claude/hooks/` | 4 | Event handlers |
+| `.claude/skills/` | 8 | User commands |
+| `.claude/hooks/` | 5 | Event handlers |
 | `.claude/rules/` | 3 | Policies |
 | `.claude/` root | 1 | Settings |
-| **Total** | **26 files** | |
+| **Total** | **30 files** | |
 
 ---
 

@@ -430,6 +430,41 @@ Please choose:
 3. Reports compatibility issues
 4. Saves results to `.pic/integration-results/`
 
+### Command: /pic-audit
+
+**What it does:** Displays the comprehensive audit trail for the current workflow, showing every agent execution, tool usage, and decision made.
+
+**When to use it:** When you want to understand exactly what happened during a workflow, debug unexpected behavior, or review the decision trail.
+
+**How to use it:**
+```
+/pic-audit
+```
+
+**What you'll see:**
+- Timestamped entries for every significant action
+- Agent spawn and completion records
+- Tool invocations with inputs and outputs
+- Decision and handoff document creation events
+
+### Command: /dependency-risk-planner
+
+**What it does:** Runs a pre-flight dependency risk assessment before code is written. Checks library health, maintainer viability, API stability, and Python compatibility.
+
+**When to use it:** During the Planning phase of any PIC workflow, or before choosing dependencies for a new project. This skill was created from hard-won lessons building the avatar pipeline.
+
+**How to use it:**
+```
+/dependency-risk-planner torch TTS diffusers
+```
+
+**What you'll get:**
+- Risk score (green/yellow/red) for each dependency
+- Maintainer viability assessment
+- Dependency tree conflict analysis
+- Architecture recommendations (wrapper patterns, import strategies)
+- Pinning strategy and install script guidance
+
 ---
 
 ## Working with Decisions
@@ -664,11 +699,28 @@ These can be used with any tools that understand these formats.
 
 ## Summary
 
+### Quick Command Reference
+
+| Command | Purpose |
+|---------|---------|
+| `/pic-start [problem]` | Begin a new workflow |
+| `/pic-status` | Show current progress |
+| `/pic-decide [title]` | Record a formal decision |
+| `/pic-handoff [notes]` | Manually trigger phase transition |
+| `/pic-conflict [summary]` | Escalate a disagreement |
+| `/pic-integration [components]` | Test components together |
+| `/pic-audit` | View comprehensive audit trail |
+| `/dependency-risk-planner [libs]` | Assess dependency risks |
+
+### Getting Started Checklist
+
 1. **Initialize** the system with `bash scripts/pic-init.sh`
 2. **Start** a workflow with `/pic-start [problem]`
 3. **Monitor** progress with `/pic-status`
 4. **Document** decisions with `/pic-decide [title]`
-5. **Resolve** conflicts when asked
-6. **Review** results when workflow completes
+5. **Assess** dependencies with `/dependency-risk-planner [libraries]`
+6. **Resolve** conflicts when asked
+7. **Audit** the workflow with `/pic-audit` if needed
+8. **Review** results when workflow completes
 
 The system guides you through a proven process for high-quality software development. Trust the process, be specific about what you want, and document important decisions along the way.

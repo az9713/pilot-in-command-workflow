@@ -66,6 +66,7 @@ Every workflow goes through six phases in order:
 | `/pic-handoff [notes]` | Move to next phase |
 | `/pic-conflict [summary]` | Escalate a disagreement |
 | `/pic-integration [components]` | Test components together |
+| `/pic-audit` | View detailed audit trail |
 | `/dependency-risk-planner [lib]` | Pre-flight dependency risk assessment (use BEFORE writing code) |
 
 ## File Structure
@@ -81,6 +82,7 @@ project-root/
 │   ├── config.json       ← Configuration
 │   ├── state.json        ← Current workflow state
 │   ├── status-log.jsonl  ← Activity log
+│   ├── audit-log.jsonl   ← Comprehensive audit trail
 │   ├── decisions/        ← Decision documents
 │   ├── handoffs/         ← Phase transition records
 │   ├── conflicts/        ← Conflict records
@@ -89,6 +91,7 @@ project-root/
     ├── settings.json     ← Permissions and hooks
     ├── agents/           ← Agent instruction files
     ├── skills/           ← User commands
+    │   └── dependency-risk-planner/  ← Lesson-learned skill
     ├── rules/            ← Coordination rules
     └── hooks/            ← Event handlers
 ```
