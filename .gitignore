@@ -1,4 +1,5 @@
 .ignore/
+docs/*.txt
 
 # Python
 __pycache__/
