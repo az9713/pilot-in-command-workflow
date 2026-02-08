@@ -40,6 +40,7 @@ mkdir -p "$PIC_DIR/decisions"
 mkdir -p "$PIC_DIR/handoffs"
 mkdir -p "$PIC_DIR/conflicts"
 mkdir -p "$PIC_DIR/integration-results"
+mkdir -p "$PIC_DIR/audit"
 
 # Initialize or reset state.json
 echo "Initializing state.json..."
@@ -69,6 +70,10 @@ EOF
 echo "Initializing status-log.jsonl..."
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 echo "{\"timestamp\": \"$TIMESTAMP\", \"event\": \"system_initialized\", \"version\": \"1.0.0\"}" > "$PIC_DIR/status-log.jsonl"
+
+# Initialize audit-log.jsonl
+echo "Initializing audit-log.jsonl..."
+echo "{\"timestamp\": \"$TIMESTAMP\", \"event\": \"audit_initialized\", \"version\": \"1.0.0\"}" > "$PIC_DIR/audit-log.jsonl"
 
 # Check if config.json exists, create default if not
 if [ ! -f "$PIC_DIR/config.json" ]; then
@@ -154,6 +159,13 @@ if [ ! -f "$PIC_DIR/config.json" ]; then
   "integration": {
     "numberingPrefix": "INT",
     "requireTestPlan": true
+  },
+  "audit": {
+    "enabled": true,
+    "captureFullOutput": true,
+    "maxOutputLength": 50000,
+    "captureToolUsage": true,
+    "retentionDays": 30
   }
 }
 EOF
@@ -184,4 +196,5 @@ echo "=== PIC System Ready ==="
 echo ""
 echo "Use /pic-start [problem] to begin a new workflow."
 echo "Use /pic-status to check current status."
+echo "Use /pic-audit to view the audit log."
 echo ""

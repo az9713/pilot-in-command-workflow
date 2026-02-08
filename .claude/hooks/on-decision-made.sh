@@ -1,14 +1,22 @@
 #!/bin/bash
 # on-decision-made.sh
 # PostToolUse hook for Write|Edit - detects and logs decision document creation
+#
+# Windows/MINGW compatible - uses sed instead of grep -oP
 
 TOOL_INPUT="$1"
 TOOL_OUTPUT="$2"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 LOG_FILE=".pic/status-log.jsonl"
 
+# Helper function to extract JSON string value (Windows compatible)
+json_get() {
+    local key="$1"
+    sed -n 's/.*"'"$key"'"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1
+}
+
 # Extract file path from tool input
-FILE_PATH=$(echo "$TOOL_INPUT" | grep -oP '"file_path"\s*:\s*"\K[^"]+' 2>/dev/null || echo "")
+FILE_PATH=$(echo "$TOOL_INPUT" | json_get "file_path")
 
 # Check if this is a decision document
 if [[ "$FILE_PATH" == *".pic/decisions/DEC-"* ]]; then

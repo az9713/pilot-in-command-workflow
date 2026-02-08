@@ -84,5 +84,12 @@
   "integration": {
     "numberingPrefix": "INT",
     "requireTestPlan": true
+  },
+  "audit": {
+    "enabled": true,
+    "captureFullOutput": true,
+    "maxOutputLength": 50000,
+    "captureToolUsage": true,
+    "retentionDays": 30
   }
 }

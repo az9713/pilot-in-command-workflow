@@ -1,0 +1,116 @@
+# Avatar Pipeline Configuration - RTX 4090 Profile
+#
+# Optimized for high-end GPUs with 20GB+ VRAM (RTX 4090, RTX 4080, A6000, etc.)
+# Maximum quality settings with parallel model loading.
+
+# Hardware profile
+hardware_profile: rtx4090
+
+# Voice cloning and synthesis settings
+voice:
+  xtts:
+    # Use full precision for maximum quality
+    precision: fp32
+
+    # Larger batch size for faster processing
+    batch_size: 4
+
+    # Temperature for voice synthesis (0.1-1.0)
+    temperature: 0.7
+
+    # Enable model caching (keep models loaded)
+    cache_models: true
+
+  tts:
+    # Full precision for TTS
+    precision: fp32
+
+    # Highest vocoder quality
+    vocoder_quality: high
+
+    # Enable model caching
+    cache_models: true
+
+# Avatar generation settings
+avatar:
+  sdxl:
+    # Full precision for best quality
+    precision: fp32
+
+    # More diffusion steps for better quality
+    num_inference_steps: 50
+
+    # Guidance scale
+    guidance_scale: 7.5
+
+    # Enable VAE slicing for quality (not needed for VRAM but doesn't hurt)
+    enable_vae_slicing: false
+
+    # Enable model caching
+    cache_models: true
+
+# Video and lip-sync settings
+video:
+  musetalk:
+    # Full precision for lip-sync
+    precision: fp32
+
+    # Higher frame rate for smoother video
+    fps: 30
+
+    # Enable model caching
+    cache_models: true
+
+  # Maximum video duration (can be higher with more VRAM)
+  max_duration_seconds: 300
+
+  # Encoding settings
+  encoding:
+    # High quality preset
+    preset: slow
+    crf: 18
+    codec: libx264
+
+# Storage paths (relative to project root)
+storage:
+  voice_profiles: "data/voice_profiles"
+  avatar_assets: "data/avatar_assets"
+  job_state: "data/jobs"
+  output: "output"
+
+# API settings
+api:
+  host: "0.0.0.0"
+  port: 8000
+
+  # Can handle more workers with high-end GPU
+  workers: 2
+
+  # CORS settings
+  cors:
+    allow_origins: ["*"]
+    allow_methods: ["*"]
+    allow_headers: ["*"]
+
+  # Larger timeouts for higher quality processing
+  timeout:
+    job_submission: 300
+    job_execution: 3600
+
+# Logging settings
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Performance optimization
+optimization:
+  # Can load models in parallel with sufficient VRAM
+  sequential_model_loading: false
+
+  # Enable all optimizations
+  enable_flash_attention: true
+  enable_xformers: true
+  enable_channels_last: true
+
+  # Pre-load frequently used models
+  preload_models: true

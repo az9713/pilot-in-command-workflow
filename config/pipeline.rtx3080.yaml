@@ -1,0 +1,127 @@
+# Avatar Pipeline Configuration - RTX 3080 Profile
+#
+# Optimized for RTX 3080 10GB (target hardware specification)
+# Balanced quality and performance with sequential model loading.
+# Also suitable for: RTX 3080 Ti, RTX 3090, RTX 4070 Ti, and similar 8-12GB GPUs.
+
+# Hardware profile
+hardware_profile: rtx3080
+
+# Voice cloning and synthesis settings
+voice:
+  xtts:
+    # Use fp16 precision for VRAM efficiency
+    precision: fp16
+
+    # Moderate batch size
+    batch_size: 2
+
+    # Temperature for voice synthesis (0.1-1.0)
+    temperature: 0.7
+
+    # Sequential loading - unload when not in use
+    cache_models: false
+
+  tts:
+    # fp16 precision for efficiency
+    precision: fp16
+
+    # Medium vocoder quality (good balance)
+    vocoder_quality: medium
+
+    # Sequential loading
+    cache_models: false
+
+# Avatar generation settings
+avatar:
+  sdxl:
+    # fp16 precision required for 10GB VRAM
+    precision: fp16
+
+    # Balanced inference steps
+    num_inference_steps: 40
+
+    # Guidance scale
+    guidance_scale: 7.5
+
+    # Enable VAE slicing to reduce VRAM peaks
+    enable_vae_slicing: true
+
+    # Sequential loading
+    cache_models: false
+
+# Video and lip-sync settings
+video:
+  musetalk:
+    # fp16 precision for efficiency
+    precision: fp16
+
+    # Standard frame rate
+    fps: 25
+
+    # Sequential loading
+    cache_models: false
+
+  # Standard maximum video duration
+  max_duration_seconds: 120
+
+  # Encoding settings (balanced)
+  encoding:
+    preset: medium
+    crf: 23
+    codec: libx264
+
+# Storage paths (relative to project root)
+storage:
+  voice_profiles: "data/voice_profiles"
+  avatar_assets: "data/avatar_assets"
+  job_state: "data/jobs"
+  output: "output"
+
+# API settings
+api:
+  host: "0.0.0.0"
+  port: 8000
+
+  # Single worker recommended for GPU efficiency
+  workers: 1
+
+  # CORS settings
+  cors:
+    allow_origins: ["*"]
+    allow_methods: ["*"]
+    allow_headers: ["*"]
+
+  # Standard timeouts
+  timeout:
+    job_submission: 120
+    job_execution: 1800
+
+# Logging settings
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Performance optimization
+optimization:
+  # Sequential model loading required for 10GB VRAM
+  sequential_model_loading: true
+
+  # Enable memory optimizations
+  enable_flash_attention: true
+  enable_xformers: true
+  enable_channels_last: true
+
+  # Don't pre-load models (save VRAM)
+  preload_models: false
+
+  # VRAM management
+  vram:
+    # Reserve some VRAM for system/other processes
+    reserved_mb: 1024
+
+    # Clear cache between stages
+    clear_cache_between_stages: true
+
+    # Enable gradient checkpointing if available
+    gradient_checkpointing: true

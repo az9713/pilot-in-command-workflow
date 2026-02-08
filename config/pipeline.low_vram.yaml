@@ -1,0 +1,170 @@
+# Avatar Pipeline Configuration - Low VRAM Profile
+#
+# Optimized for GPUs with less than 8GB VRAM
+# Reduced quality settings to fit in limited VRAM.
+# Suitable for: RTX 3060 8GB, RTX 2060, GTX 1080, and similar <8GB GPUs.
+
+# Hardware profile
+hardware_profile: low_vram
+
+# Voice cloning and synthesis settings
+voice:
+  xtts:
+    # fp16 precision required
+    precision: fp16
+
+    # Minimum batch size
+    batch_size: 1
+
+    # Temperature for voice synthesis
+    temperature: 0.7
+
+    # Never cache models
+    cache_models: false
+
+    # Enable CPU offload if VRAM is critically low
+    cpu_offload: true
+
+  tts:
+    # fp16 precision
+    precision: fp16
+
+    # Low vocoder quality to save VRAM
+    vocoder_quality: low
+
+    # Never cache models
+    cache_models: false
+
+    # Enable CPU offload
+    cpu_offload: true
+
+# Avatar generation settings
+avatar:
+  sdxl:
+    # fp16 precision required
+    precision: fp16
+
+    # Fewer inference steps to reduce memory
+    num_inference_steps: 30
+
+    # Lower guidance scale
+    guidance_scale: 7.0
+
+    # Enable VAE slicing and tiling
+    enable_vae_slicing: true
+    enable_vae_tiling: true
+
+    # Enable attention slicing
+    enable_attention_slicing: true
+
+    # Sequential CPU offloading
+    enable_sequential_cpu_offload: true
+
+    # Never cache models
+    cache_models: false
+
+# Video and lip-sync settings
+video:
+  musetalk:
+    # fp16 precision
+    precision: fp16
+
+    # Lower frame rate
+    fps: 20
+
+    # Never cache models
+    cache_models: false
+
+    # Enable CPU offload
+    cpu_offload: true
+
+    # Reduce batch size for processing
+    batch_size: 1
+
+  # Reduced maximum video duration
+  max_duration_seconds: 60
+
+  # Encoding settings (fast preset)
+  encoding:
+    preset: fast
+    crf: 28
+    codec: libx264
+
+# Storage paths (relative to project root)
+storage:
+  voice_profiles: "data/voice_profiles"
+  avatar_assets: "data/avatar_assets"
+  job_state: "data/jobs"
+  output: "output"
+
+# API settings
+api:
+  host: "0.0.0.0"
+  port: 8000
+
+  # Single worker only
+  workers: 1
+
+  # CORS settings
+  cors:
+    allow_origins: ["*"]
+    allow_methods: ["*"]
+    allow_headers: ["*"]
+
+  # Shorter timeouts due to reduced processing requirements
+  timeout:
+    job_submission: 60
+    job_execution: 900
+
+# Logging settings
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Performance optimization
+optimization:
+  # Sequential model loading absolutely required
+  sequential_model_loading: true
+
+  # Enable all memory-saving optimizations
+  enable_flash_attention: true
+  enable_xformers: true
+  enable_channels_last: true
+
+  # Never pre-load models
+  preload_models: false
+
+  # Aggressive VRAM management
+  vram:
+    # Minimal reserved VRAM
+    reserved_mb: 512
+
+    # Always clear cache
+    clear_cache_between_stages: true
+
+    # Force garbage collection
+    force_gc_after_stage: true
+
+    # Enable gradient checkpointing
+    gradient_checkpointing: true
+
+    # Use CPU RAM as overflow
+    enable_cpu_offload: true
+
+# Quality trade-offs
+quality:
+  # Accept lower quality for VRAM constraints
+  avatar:
+    # Smaller generated images
+    max_resolution: 1024
+
+  video:
+    # Lower resolution video
+    max_resolution: 720
+
+# Warnings
+warnings:
+  - "Low VRAM mode: Quality reduced to fit GPU memory constraints"
+  - "Consider upgrading to 8GB+ VRAM GPU for better results"
+  - "Some operations may fall back to CPU (slow)"
+  - "Sequential model loading will increase processing time"

@@ -1,0 +1,72 @@
+# Avatar Pipeline Configuration
+#
+# This is a sample configuration file showing available options.
+# The system auto-detects your hardware and applies appropriate defaults.
+# Only specify values you want to override.
+
+# Voice cloning and synthesis settings
+voice:
+  xtts:
+    # Precision: fp16 or fp32 (fp16 recommended for VRAM efficiency)
+    precision: fp16
+
+    # Batch size for voice cloning (higher = faster but more VRAM)
+    batch_size: 2
+
+    # Temperature for voice synthesis (0.1-1.0, higher = more variation)
+    temperature: 0.7
+
+  tts:
+    # Precision for TTS model
+    precision: fp16
+
+    # Vocoder quality: low, medium, high
+    vocoder_quality: medium
+
+# Avatar generation settings
+avatar:
+  sdxl:
+    # Precision for SDXL model
+    precision: fp16
+
+    # Number of diffusion steps (more = better quality but slower)
+    num_inference_steps: 40
+
+    # Guidance scale (how closely to follow prompt)
+    guidance_scale: 7.5
+
+# Video and lip-sync settings
+video:
+  musetalk:
+    # Precision for MuseTalk model
+    precision: fp16
+
+    # Video frame rate (fps)
+    fps: 25
+
+  # Maximum video duration in seconds
+  max_duration_seconds: 120
+
+# Storage paths (relative to project root)
+storage:
+  voice_profiles: "data/voice_profiles"
+  avatar_assets: "data/avatar_assets"
+  job_state: "data/jobs"
+  output: "output"
+
+# API settings (for REST API mode)
+api:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 1
+
+  # CORS settings
+  cors:
+    allow_origins: ["*"]
+    allow_methods: ["*"]
+    allow_headers: ["*"]
+
+# Logging settings
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

@@ -3,9 +3,7 @@
     "allow": [
       "Read(**)",
       "Glob(**)",
-      "Grep(**)",
-      "WebSearch(**)",
-      "WebFetch(**)"
+      "Grep(**)"
     ],
     "deny": []
   },
@@ -23,11 +21,78 @@
     ],
     "PostToolUse": [
       {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/audit-tool-use.sh Task \"$TOOL_INPUT\" \"$TOOL_OUTPUT\""
+          }
+        ]
+      },
+      {
         "matcher": "Write|Edit",
         "hooks": [
           {
             "type": "command",
             "command": "bash .claude/hooks/on-decision-made.sh \"$TOOL_INPUT\" \"$TOOL_OUTPUT\""
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/audit-tool-use.sh Write \"$TOOL_INPUT\" \"$TOOL_OUTPUT\""
+          }
+        ]
+      },
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/audit-tool-use.sh Read \"$TOOL_INPUT\" \"$TOOL_OUTPUT\""
+          }
+        ]
+      },
+      {
+        "matcher": "Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/audit-tool-use.sh Glob \"$TOOL_INPUT\" \"$TOOL_OUTPUT\""
+          }
+        ]
+      },
+      {
+        "matcher": "Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/audit-tool-use.sh Grep \"$TOOL_INPUT\" \"$TOOL_OUTPUT\""
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/audit-tool-use.sh Bash \"$TOOL_INPUT\" \"$TOOL_OUTPUT\""
+          }
+        ]
+      },
+      {
+        "matcher": "WebSearch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/audit-tool-use.sh WebSearch \"$TOOL_INPUT\" \"$TOOL_OUTPUT\""
+          }
+        ]
+      },
+      {
+        "matcher": "WebFetch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/audit-tool-use.sh WebFetch \"$TOOL_INPUT\" \"$TOOL_OUTPUT\""
           }
         ]
       }
