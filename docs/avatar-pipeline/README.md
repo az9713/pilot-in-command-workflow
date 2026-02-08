@@ -37,7 +37,7 @@ pip install -e . --no-deps
 pip install torch torchaudio diffusers transformers accelerate mediapipe \
     opencv-python Pillow fastapi "uvicorn[standard]" click pyyaml pydantic \
     python-multipart numpy scipy soundfile librosa scikit-learn einops \
-    unidecode num2words
+    unidecode num2words coqpit
 ```
 
 ### System Check
@@ -133,6 +133,8 @@ avatar-pipeline/
 │   ├── 05_full_pipeline.py
 │   └── 06_api_client.py
 ├── docs/                    # Documentation
+│   ├── INSTALLATION_GUIDE.md   # Step-by-step install (read this!)
+│   └── LESSONS_LEARNED.md      # Dependency pitfalls & prevention
 ├── scripts/                 # Utility scripts
 │   └── install.sh          # Installation helper
 └── tests/                   # Test suite
@@ -350,6 +352,9 @@ avatar status --config config/custom.yaml
 ```
 
 ## Troubleshooting
+
+> **Installation problems?** See [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md) for pip/TTS/Python issues.
+> **Deeper understanding?** See [LESSONS_LEARNED.md](LESSONS_LEARNED.md) for root causes and prevention.
 
 ### Out of Memory Errors
 

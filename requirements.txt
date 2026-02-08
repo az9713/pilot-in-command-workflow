@@ -14,7 +14,7 @@
 #   5. pip install torch torchaudio diffusers transformers accelerate mediapipe \
 #        opencv-python Pillow fastapi "uvicorn[standard]" click pyyaml pydantic \
 #        python-multipart numpy scipy soundfile librosa scikit-learn einops \
-#        unidecode num2words
+#        unidecode num2words coqpit
 #   6. pip install pytest pytest-mock pytest-asyncio pytest-cov httpx  # for tests
 #
 # WHY --no-deps? Coqui TTS (company shut down in 2024) has outdated, overly
@@ -57,3 +57,4 @@ scikit-learn
 einops
 unidecode
 num2words
+coqpit                        # TTS config dataclass library

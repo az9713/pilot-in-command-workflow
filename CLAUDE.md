@@ -66,6 +66,7 @@ Every workflow goes through six phases in order:
 | `/pic-handoff [notes]` | Move to next phase |
 | `/pic-conflict [summary]` | Escalate a disagreement |
 | `/pic-integration [components]` | Test components together |
+| `/dependency-risk-planner [lib]` | Pre-flight dependency risk assessment (use BEFORE writing code) |
 
 ## File Structure
 

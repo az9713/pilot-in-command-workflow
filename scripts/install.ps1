@@ -118,7 +118,7 @@ Print-Info "Installing ML frameworks..."
 pip install torch torchaudio
 
 Print-Info "Installing remaining dependencies..."
-pip install diffusers transformers accelerate mediapipe opencv-python Pillow fastapi "uvicorn[standard]" click pyyaml pydantic python-multipart numpy scipy soundfile librosa scikit-learn einops unidecode num2words
+pip install diffusers transformers accelerate mediapipe opencv-python Pillow fastapi "uvicorn[standard]" click pyyaml pydantic python-multipart numpy scipy soundfile librosa scikit-learn einops unidecode num2words coqpit
 
 # Install project (--no-deps to skip TTS resolution)
 Print-Info "Installing avatar-pipeline package..."

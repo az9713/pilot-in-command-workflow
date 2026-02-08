@@ -130,7 +130,7 @@ pip install \
     fastapi "uvicorn[standard]" click \
     pyyaml pydantic python-multipart \
     numpy scipy soundfile librosa scikit-learn \
-    einops unidecode num2words \
+    einops unidecode num2words coqpit \
     2>&1 | tail -1
 
 # Install the project itself (also with --no-deps to avoid re-triggering TTS resolution)

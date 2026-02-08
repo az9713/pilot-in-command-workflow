@@ -9,8 +9,12 @@ running any commands.
 |-------|--------|------------|
 | Coqui TTS requires Python <3.12 | `pip install TTS` fails on Python 3.12+ | Use Python 3.10 or 3.11 |
 | TTS has stale dependency pins | pip backtrack for 10+ min, often fails | Install TTS with `--no-deps` |
+| TTS transitive deps not auto-installed | `ModuleNotFoundError` at runtime | Manually install (see deps list below) |
+| `torchaudio.info()` removed | `AttributeError` when getting audio duration | Source code fixed to use `soundfile` |
 | Venv can inherit system packages | Wrong Python version leaks into venv | Always use `--clear` flag |
 | RunPod default Python is 3.12 | TTS will not install | Create Python 3.11 venv |
+
+See [LESSONS_LEARNED.md](LESSONS_LEARNED.md) for the full root cause analysis and prevention strategies.
 
 ---
 
@@ -114,7 +118,7 @@ pip install \
     fastapi "uvicorn[standard]" click \
     pyyaml pydantic python-multipart \
     numpy scipy soundfile librosa scikit-learn \
-    einops unidecode num2words
+    einops unidecode num2words coqpit
 ```
 
 ### Step 6: Install the Project
@@ -220,7 +224,7 @@ pip install \
     fastapi "uvicorn[standard]" click \
     pyyaml pydantic python-multipart \
     numpy scipy soundfile librosa scikit-learn \
-    einops unidecode num2words
+    einops unidecode num2words coqpit
 pip install -e . --no-deps
 pip install pytest pytest-mock pytest-asyncio pytest-cov httpx
 ```
@@ -290,6 +294,41 @@ source venv/bin/activate
 This can happen when building from source on some platforms. It's safe to
 ignore - we only need `opencv-python` (not `contrib`). If you see this error
 during TTS install, it's another reason to use `--no-deps`.
+
+### "No module named 'coqpit'" (or other TTS transitive dep)
+
+Because we install TTS with `--no-deps`, we must manually provide every package
+that TTS imports at runtime. If you hit a `ModuleNotFoundError` for a package
+you didn't expect, install it and add it to the dependency lists.
+
+Known TTS transitive deps:
+```
+numpy scipy soundfile librosa scikit-learn einops unidecode num2words coqpit
+```
+
+Fix:
+```bash
+pip install <missing-package>
+```
+
+See `LESSONS_LEARNED.md` for the full explanation and prevention strategies.
+
+### "module 'torchaudio' has no attribute 'info'"
+
+Newer torchaudio versions (2.1+) removed `torchaudio.info()`. This was fixed
+in the source code by switching to `soundfile.info()`. If you see this error,
+make sure your source files are up to date.
+
+**If you're modifying audio code**, use `soundfile` for metadata queries:
+```python
+import soundfile as sf
+info = sf.info(str(audio_path))
+duration = info.duration
+```
+
+Do NOT use `torchaudio.info()` or `torchaudio.load()` for metadata - both are
+fragile across versions. Keep `torchaudio` only for tensor operations needed
+by ML models.
 
 ### Tests fail with "does not have the attribute 'torch'"
 

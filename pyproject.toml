@@ -69,6 +69,7 @@ dependencies = [
     "einops",
     "unidecode",
     "num2words",
+    "coqpit",               # TTS config dataclass library
 ]
 
 [project.optional-dependencies]
