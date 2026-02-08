@@ -1,0 +1,59 @@
+# Avatar Pipeline Requirements
+# =============================================================================
+# CRITICAL: Python 3.10 or 3.11 ONLY. Python 3.12+ will NOT work (Coqui TTS).
+# =============================================================================
+#
+# DO NOT run: pip install -r requirements.txt
+# Instead, follow the install procedure in docs/avatar-pipeline/INSTALLATION_GUIDE.md
+#
+# TL;DR install (for those who know what they're doing):
+#   1. Create Python 3.11 venv: python3.11 -m venv venv && source venv/bin/activate
+#   2. pip install --upgrade pip wheel setuptools
+#   3. pip install TTS==0.22.0 --no-deps
+#   4. pip install -e . --no-deps
+#   5. pip install torch torchaudio diffusers transformers accelerate mediapipe \
+#        opencv-python Pillow fastapi "uvicorn[standard]" click pyyaml pydantic \
+#        python-multipart numpy scipy soundfile librosa scikit-learn einops \
+#        unidecode num2words
+#   6. pip install pytest pytest-mock pytest-asyncio pytest-cov httpx  # for tests
+#
+# WHY --no-deps? Coqui TTS (company shut down in 2024) has outdated, overly
+# strict dependency pins that cause pip to backtrack for 10+ minutes and often
+# fail entirely. Installing with --no-deps skips TTS's broken dependency
+# resolution and lets us install compatible versions directly.
+# =============================================================================
+
+# Core ML frameworks
+torch>=2.0
+torchaudio>=2.0
+
+# Model libraries
+TTS==0.22.0                   # PINNED - last stable Coqui TTS (requires Python <3.12)
+diffusers>=0.21.0
+transformers>=4.30.0
+accelerate>=0.20.0
+
+# Computer vision
+mediapipe>=0.10.0
+opencv-python>=4.8.0
+Pillow>=10.0.0
+
+# API and CLI
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+click>=8.1.0
+
+# Utilities
+pyyaml>=6.0
+pydantic>=2.0
+python-multipart>=0.0.6
+
+# TTS transitive dependencies (needed because we install TTS with --no-deps)
+numpy
+scipy
+soundfile
+librosa
+scikit-learn
+einops
+unidecode
+num2words
